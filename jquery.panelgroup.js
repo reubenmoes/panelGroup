@@ -99,7 +99,7 @@
 					var h = $(this).find(pg.settings.selectors.header).addClass('sr-only').hide();
 
 					// Content
-					content.append($(this).find('.item-content').removeClass('item-content').addClass('item').attr('data-tab-index', index).prepend(h));
+					content.append($(this).find(pg.settings.selectors.content).addClass('item').attr('data-tab-index', index).prepend(h));
 					$(this).remove();
 			
 				});
@@ -158,7 +158,7 @@
 			if ( pg.settings.firstAccordionOpen ) {
 			
 				// Hide items
-				that.find(pg.settings.selectors.item + ":gt(0)").find('.item-content').hide();
+				that.find(pg.settings.selectors.item + ":gt(0)").find(pg.settings.selectors.content).hide();
 
 				// Active classes
 				activeItem = items.first().addClass('active');
@@ -166,7 +166,7 @@
 			} else {
 			
 				// Hide items
-				that.find(pg.settings.selectors.item).find('.item-content').hide();
+				that.find(pg.settings.selectors.item).find(pg.settings.selectors.header).hide();
 			
 			}
 		
