@@ -36,6 +36,8 @@ The following markup is assumed:
 
 ```
 
+A class of `item` for each tab/accordion item.`item-header` and `item-content` are used for the header and content. These can be changed in the options section though.
+
 ### data-group-type
 
 Note that the group type (`accordion/tabs`), is specified in a data-group-type attribute on the containing element.
