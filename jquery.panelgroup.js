@@ -18,7 +18,8 @@
 				content: '.item-content'
 			},
 			accordionSpeed: 300,
-			firstAccordionOpen: true
+			firstAccordionOpen: true,
+			onlyKeepOneOpen: true
 		},
 		settings: false,
 		typeOptions: ['tab', 'accordion'],
@@ -154,7 +155,6 @@
 					animating = false;
 
 			// Check if first accordion item is open or not
-			console.log(pg.settings.firstAccordionOpen);
 			if ( pg.settings.firstAccordionOpen ) {
 			
 				// Hide items
@@ -199,10 +199,12 @@
 					} else {
 				
 						// Close the items we don't want
-						activeItem = $(this).parents(pg.settings.selectors.item).siblings('.active');
-						activeItem.find(pg.settings.selectors.content).slideUp(pg.settings.accordionSpeed, function(){
-							activeItem.removeClass('active');
-						});
+						if ( pg.settings.onlyKeepOneOpen ) {
+							activeItem = $(this).parents(pg.settings.selectors.item).siblings('.active');
+							activeItem.find(pg.settings.selectors.content).slideUp(pg.settings.accordionSpeed, function(){
+						  	activeItem.removeClass('active');
+						  });
+						}
 				
 						// Open appropriate item
 						content.slideDown(pg.settings.accordionSpeed, function(){
