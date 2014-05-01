@@ -55,7 +55,8 @@ selectors: { // customize the classes used in markup
     content: '.item-content'
   },
 accordionSpeed: 300, // The animation speed of opening/collapsing accordion items
-firstAccordionOpen: true // Whether or not the first accordion item should be open
+firstAccordionOpen: true, // Whether or not the first accordion item should be open
+onlyKeepOneOpen: true //If Accordion should collapse all other '.active' items on open
 ```
 
 ## Methods for changing types (used for responsive)
