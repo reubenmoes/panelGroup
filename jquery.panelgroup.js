@@ -207,8 +207,8 @@
 						}
 				
 						// Open appropriate item
+						parent.addClass('active');
 						content.slideDown(pg.settings.accordionSpeed, function(){
-							parent.addClass('active');
 							animating = false;
 						});
 									
