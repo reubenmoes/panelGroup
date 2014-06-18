@@ -112,6 +112,8 @@
 				// Calculate nav items widths
 				nav.find(' > li').css('width', 100 / navItems.length + "%");
 
+				//Add count class
+				nav.addClass('has-'+navItems.length);
 
 			// The functionality of tabs
 
