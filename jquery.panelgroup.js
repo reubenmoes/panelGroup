@@ -123,7 +123,7 @@
 				nav.find('a').first().addClass('active');
 
 				// Click handlers
-				nav.find('a').click(function(event) {
+				nav.find('a').on('click focus', function(event) {
 
 					if ( ! $(this).is('.active') ) {
 
@@ -172,25 +172,28 @@
 		
 
 			// The click and toggle situation
-			items.find(pg.settings.selectors.header).click(function(event) {
+			items.find(pg.settings.selectors.header).wrapInner('<a href="#">').children('a').on('click focus', function(event) {
 
 				// Check if an animation is happening right now
 				if ( animating ) {
 
 					return false;
 
-				} else {					
-
-					animating = true;
+				} else {
 
 					var t = $(this),
-							content = t.siblings(pg.settings.selectors.content),
-							parent = t.parents(pg.settings.selectors.item);
+					    content = t.closest(pg.settings.selectors.item).find(pg.settings.selectors.content),
+					    parent = t.closest(pg.settings.selectors.item);
 
 					// Expand or collapse depending on if you clicked an active item or not
 					if ( parent.is('.active') ) {
-				
+						// Don't close if it is just a focus event
+						if( event.type == 'focus' ) {
+							return;
+						}
+
 						// Close the active item
+						animating = true;
 						content.slideUp(pg.settings.accordionSpeed, function(){
 							parent.removeClass('active');
 							animating = false;
@@ -200,18 +203,19 @@
 				
 						// Close the items we don't want
 						if ( pg.settings.onlyKeepOneOpen ) {
-							activeItem = $(this).parents(pg.settings.selectors.item).siblings('.active');
+							activeItem = $(this).closest(pg.settings.selectors.item).siblings('.active');
 							activeItem.find(pg.settings.selectors.content).slideUp(pg.settings.accordionSpeed, function(){
-						  	activeItem.removeClass('active');
-						  });
+								activeItem.removeClass('active');
+							});
 						}
 				
 						// Open appropriate item
 						parent.addClass('active');
+						animating = true;
 						content.slideDown(pg.settings.accordionSpeed, function(){
 							animating = false;
 						});
-									
+
 					} // else
 			
 					event.preventDefault();
