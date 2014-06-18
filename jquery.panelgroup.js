@@ -174,7 +174,7 @@
 		
 
 			// The click and toggle situation
-			items.find(pg.settings.selectors.header).wrapInner('<a href="#">').children('a').on('click focus', function(event) {
+			items.find(pg.settings.selectors.header).wrapInner('<a href="#"></a>').children('a').on('click focus', function(event) {
 
 				// Check if an animation is happening right now
 				if ( animating ) {
