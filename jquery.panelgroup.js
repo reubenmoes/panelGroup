@@ -166,7 +166,7 @@
 			} else {
 			
 				// Hide items
-				that.find(pg.settings.selectors.item).find(pg.settings.selectors.header).hide();
+				that.find(pg.settings.selectors.item).find(pg.settings.selectors.content).hide();
 			
 			}
 		
