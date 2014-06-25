@@ -94,11 +94,10 @@
 			
 					// Header
 					navItems.push('<li><a href="#" data-tab-index="' + index + '">' + $(this).find(settings.selectors.header).text() + '</a></li>');
-					var h = $(this).find(settings.selectors.header).addClass('sr-only').hide();
+					$(this).find(settings.selectors.header).addClass('sr-only').hide();
 
 					// Content
-					content.append($(this).find(settings.selectors.content).addClass('item').attr('data-tab-index', index).prepend(h));
-					$(this).remove();
+					content.append($(this).attr('data-tab-index', index));
 			
 				});
 
@@ -130,8 +129,8 @@
 						var toShow = $(this).data('tab-index');
 
 						// Show item, hide others
-						items.find(settings.selectors.content).not('[data-tab-index=' + toShow + ']').hide();
-						items.find(settings.selectors.content+'[data-tab-index=' + toShow + ']').show();
+						items.find(settings.selectors.item).not('[data-tab-index=' + toShow + ']').hide();
+						items.find(settings.selectors.item+'[data-tab-index=' + toShow + ']').show();
 
 						// Toggle active class
 						nav.find('.active').removeClass('active');
@@ -234,10 +233,10 @@
 				// Check if we're dealing with tabs, if so, accordion time!
 				if ( $(that).data('groupType') == 'tabs' ) {
 				
-					// Replace tab markup with original markup
-					$(that).html(settings.originalHTML).removeClass('tabs');
+					// Goodbye Tabs
+					pg.methods.destroyTabs(that);
 				
-					// Make into accordion
+					// Hello Accordion
 					pg.makeAccordion($(that));
 
 					// Set whether we've turned tabs into accordions
@@ -252,19 +251,42 @@
 
 				if ( $(that).data('tabsToAccordion') ) {
 				
-					// Replace tab markup with original markup
-					$(that).html(settings.originalHTML).removeClass('accordion');
+					// Goodbye Accordion
+					pg.methods.destroyAccordion(that);
 				
-					// Make into accordion
+					// Hello Tabs
 					pg.makeTabs($(that));
 
 					// Set whether we've turned tabs into accordions
 					$(that).data('tabsToAccordion', 'false');
 				
 				} // if tabsToAccordion
-			
-			} // tabsBackToTabs
-		
+
+			}, // tabsBackToTabs
+
+			destroyTabs: function(that) {
+			  var settings = $(that).data('panelGroup');
+
+				//NOTE: might be better to toggle .active class instead of show() hide()
+				$(that).removeClass('.tabs');
+			  $(that).find('.tab-nav').remove();
+				$(that).find('.tab-items').children().first().unwrap();
+			  $(that).find(settings.selectors.header).removeClass('sr-only').show();
+			  $(that).find(settings.selectors.item).removeAttr('data-tab-index').removeClass('active').show();
+
+			}, //destroyTabs
+
+			destroyAccordion: function(that) {
+			  var settings = $(that).data('panelGroup');
+
+				$(that).removeClass('accordion');
+			  $(that).find(settings.selectors.header).show();
+				$(that).find(settings.selectors.header).find('a').contents().unwrap();//Removes the <a> tag
+			  $(that).find(settings.selectors.item).removeClass('active').show();
+			  $(that).find(settings.selectors.content).show();
+
+			} //destroyAccordion
+
 		} // methods
 
 
