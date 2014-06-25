@@ -83,11 +83,20 @@
 			
 				// Header and items containers
 			  var settings = $(that).data('panelGroup'),
-				    nav = $('<ul class="tab-nav">').addClass(settings.tabNavClasses),
+				    nav = $('<ul class="tab-nav">'),
+						navWrapper = $('<div class="tab-nav-wrapper">'),
+						navTitle = $(that).data('tab-nav-title'),
 				    navItems = [],
 				    navItemsWidth,
 				    items,
 				    content = $('<div class="tab-items">').addClass(settings.tabItemsClasses);
+
+				navWrapper.addClass(settings.tabNavClasses);
+				if(navTitle){
+				  navWrapper.prepend('<h4 class="tab-nav-title">'+navTitle+'</h4>');
+				}
+
+				navWrapper.append(nav);
 
 				that.addClass('tabs');
 
@@ -105,7 +114,7 @@
 
 				// Append header and content items
 				nav.append(navItems);
-				that.append(nav).append(content);
+				that.append(nav.parent()).append(content);
 
 				// Calculate nav items widths
 				nav.find(' > li').css('width', 100 / navItems.length + "%");
@@ -271,7 +280,7 @@
 
 				//NOTE: might be better to toggle .active class instead of show() hide()
 				$(that).removeClass('.tabs');
-			  $(that).find('.tab-nav').remove();
+			  $(that).find('.tab-nav-wrapper').remove();
 				$(that).find('.tab-items').children().first().unwrap();
 			  $(that).find(settings.selectors.header).removeClass('sr-only').show();
 			  $(that).find(settings.selectors.item).removeAttr('data-tab-index').removeClass('active').show();

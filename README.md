@@ -13,7 +13,7 @@ $('.panel-group').panelGroup();
 The following markup is assumed:
 
 ```html
-<div class="panel-group" data-group-type="accordion">
+<div class="panel-group" data-group-type="accordion" data-tab-nav-title="Choose a tab:">
   <div class="item">
     <h4 class="item-header">Item 1</h4>
     <div class="item-content">
