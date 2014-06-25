@@ -17,6 +17,8 @@
 				header: '.item-header',
 				content: '.item-content'
 			},
+			tabNavClasses: '',
+			tabItemsClasses: '',
 			accordionSpeed: 300,
 			firstAccordionOpen: true,
 			onlyKeepOneOpen: true
@@ -81,11 +83,11 @@
 			
 				// Header and items containers
 			  var settings = $(that).data('panelGroup'),
-				    nav = $('<ul class="tab-nav">'),
+				    nav = $('<ul class="tab-nav">').addClass(settings.tabNavClasses),
 				    navItems = [],
 				    navItemsWidth,
 				    items,
-				    content = $('<div class="tab-items">');
+				    content = $('<div class="tab-items">').addClass(settings.tabItemsClasses);
 
 				that.addClass('tabs');
 

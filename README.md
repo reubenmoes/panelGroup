@@ -54,6 +54,8 @@ selectors: { // customize the classes used in markup
     header: '.item-header',
     content: '.item-content'
   },
+tabNavClasses: '', //get's added to tab nav <ul>
+tabItemsClasses: '', //get's added to tab-items div
 accordionSpeed: 300, // The animation speed of opening/collapsing accordion items
 firstAccordionOpen: true, // Whether or not the first accordion item should be open
 onlyKeepOneOpen: true //If Accordion should collapse all other '.active' items on open
