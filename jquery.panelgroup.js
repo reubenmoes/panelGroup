@@ -1,5 +1,5 @@
 /*!
-* panelGroup 1.0-beta1
+* panelGroup 1.0-beta2
 * 
 * Written by Nathan Shubert-Harbison for Domain7 (www.domain7.com) - #humanizetheweb
 * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
@@ -21,86 +21,83 @@
 			firstAccordionOpen: true,
 			onlyKeepOneOpen: true
 		},
-		settings: false,
+		//settings: false,
 		typeOptions: ['tab', 'accordion'],
 		typeDefault: 'tab',
-		originals: [],
 
-		init: function(that) {
+		init: function(that, options) {
 
-			return $(that).each(function(index) {
+			var settings = $.extend({}, pg.defaults, options );
+			$(that).data('panelGroup', settings);
 
-				// Store the original item key in a data attribute
-				$(this).attr('data-group-original', index);
-
-				// Cache the original element. This is for switching to a different group type.
-				pg.originals.push($(this).clone().html());
-			
-				// Do the proper operation depending on grouping type
-				switch ( pg.settings.type ) {
-				
-					case 'tabs':
-						pg.makeTabs($(this));
-						break;
-				
-					case 'accordion':
-						pg.makeAccordion($(this));
-						break;
-					
-					case 'auto':
-				
-						// Get the group type set in the group-type data attribute
-						var type = $(this).data('group-type');
-					
-						// If the type set isn't valid use the default
-						if ( pg.typeOptions.indexOf(type) == '-1' ) {
-							type = 'tabs';
-						}
-					
-						switch ( type ) {
-							case 'tabs':
-								pg.makeTabs($(this));
-								break;
-							case 'accordion':
-								pg.makeAccordion($(this));
-								break;
-							default:
-								break;
-						}
-					
-						break;
-				
-					default:
-						break;
-				
-				} // switch settings.type
-			
-			}); // reutrn that.each
+			// Cache the original element. This is for switching to a different group type.
+			//NOTE: this approach is going to remove any binding.
+			settings.originalHTML = $(that).clone().html();
 		
+			// Do the proper operation depending on grouping type
+			switch ( settings.type ) {
+			
+				case 'tabs':
+					pg.makeTabs($(that));
+					break;
+			
+				case 'accordion':
+					pg.makeAccordion($(that));
+					break;
+				
+				case 'auto':
+			
+					// Get the group type set in the group-type data attribute
+					var type = $(that).data('group-type');
+				
+					// If the type set isn't valid use the default
+					if ( pg.typeOptions.indexOf(type) == '-1' ) {
+						type = 'tabs';
+					}
+				
+					switch ( type ) {
+						case 'tabs':
+							pg.makeTabs($(that));
+							break;
+						case 'accordion':
+							pg.makeAccordion($(that));
+							break;
+						default:
+							break;
+					}
+				
+					break;
+			
+				default:
+					break;
+			
+			} // switch settings.type
+			
 		}, // init
 
 		makeTabs: function(that) {
 
 			// Create the markup neccesary for tabs
 			
+				// Header and items containers
+			  var settings = $(that).data('panelGroup'),
+				    nav = $('<ul class="tab-nav">'),
+				    navItems = [],
+				    navItemsWidth,
+				    items,
+				    content = $('<div class="tab-items">');
+
 				that.addClass('tabs');
 
-				// Header and items containers
-				var nav = $('<ul class="tab-nav">'),
-						navItems = [],
-						navItemsWidth,
-						items,
-						content = $('<div class="tab-items">');
-
 				// Iterate through each item and build the headers
-				that.find(pg.settings.selectors.item).each(function(index) {
+				that.find(settings.selectors.item).each(function(index) {
 			
 					// Header
-					navItems.push('<li><a href="#" data-tab-index="' + index + '">' + $(this).find(pg.settings.selectors.header).text() + '</a></li>');
-					var h = $(this).find(pg.settings.selectors.header).addClass('sr-only').hide();
+					navItems.push('<li><a href="#" data-tab-index="' + index + '">' + $(this).find(settings.selectors.header).text() + '</a></li>');
+					var h = $(this).find(settings.selectors.header).addClass('sr-only').hide();
 
 					// Content
-					content.append($(this).find(pg.settings.selectors.content).addClass('item').attr('data-tab-index', index).prepend(h));
+					content.append($(this).find(settings.selectors.content).addClass('item').attr('data-tab-index', index).prepend(h));
 					$(this).remove();
 			
 				});
@@ -133,8 +130,8 @@
 						var toShow = $(this).data('tab-index');
 
 						// Show item, hide others
-						items.find(pg.settings.selectors.item).not('[data-tab-index=' + toShow + ']').hide();
-						items.find(pg.settings.selectors.item+'[data-tab-index=' + toShow + ']').show();
+						items.find(settings.selectors.content).not('[data-tab-index=' + toShow + ']').hide();
+						items.find(settings.selectors.content+'[data-tab-index=' + toShow + ']').show();
 
 						// Toggle active class
 						nav.find('.active').removeClass('active');
@@ -149,18 +146,18 @@
 		}, // makeTabs
 
 		makeAccordion: function(that) {
-		
+			var settings = that.data('panelGroup'),
+			    items = that.find(settings.selectors.item),
+			    activeItem,
+			    animating = false;
+
 			that.addClass('accordion');
-		
-			var items = that.find(pg.settings.selectors.item),
-					activeItem,
-					animating = false;
 
 			// Check if first accordion item is open or not
-			if ( pg.settings.firstAccordionOpen ) {
+			if ( settings.firstAccordionOpen ) {
 			
 				// Hide items
-				that.find(pg.settings.selectors.item + ":gt(0)").find(pg.settings.selectors.content).hide();
+				that.find(settings.selectors.item + ":gt(0)").find(settings.selectors.content).hide();
 
 				// Active classes
 				activeItem = items.first().addClass('active');
@@ -168,13 +165,13 @@
 			} else {
 			
 				// Hide items
-				that.find(pg.settings.selectors.item).find(pg.settings.selectors.content).hide();
+				that.find(settings.selectors.item).find(settings.selectors.content).hide();
 			
 			}
 		
 
 			// The click and toggle situation
-			items.find(pg.settings.selectors.header).wrapInner('<a href="#"></a>').children('a').on('click focus', function(event) {
+			items.find(settings.selectors.header).wrapInner('<a href="#"></a>').children('a').on('click focus', function(event) {
 
 				// Check if an animation is happening right now
 				if ( animating ) {
@@ -184,8 +181,8 @@
 				} else {
 
 					var t = $(this),
-					    content = t.closest(pg.settings.selectors.item).find(pg.settings.selectors.content),
-					    parent = t.closest(pg.settings.selectors.item);
+					    content = t.closest(settings.selectors.item).find(settings.selectors.content),
+					    parent = t.closest(settings.selectors.item);
 
 					// Expand or collapse depending on if you clicked an active item or not
 					if ( parent.is('.active') ) {
@@ -196,7 +193,7 @@
 
 						// Close the active item
 						animating = true;
-						content.slideUp(pg.settings.accordionSpeed, function(){
+						content.slideUp(settings.accordionSpeed, function(){
 							parent.removeClass('active');
 							animating = false;
 						});
@@ -204,9 +201,9 @@
 					} else {
 				
 						// Close the items we don't want
-						if ( pg.settings.onlyKeepOneOpen ) {
-							activeItem = $(this).closest(pg.settings.selectors.item).siblings('.active');
-							activeItem.find(pg.settings.selectors.content).slideUp(pg.settings.accordionSpeed, function(){
+						if ( settings.onlyKeepOneOpen ) {
+							activeItem = $(this).closest(settings.selectors.item).siblings('.active');
+							activeItem.find(settings.selectors.content).slideUp(settings.accordionSpeed, function(){
 								activeItem.removeClass('active');
 							});
 						}
@@ -214,7 +211,7 @@
 						// Open appropriate item
 						parent.addClass('active');
 						animating = true;
-						content.slideDown(pg.settings.accordionSpeed, function(){
+						content.slideDown(settings.accordionSpeed, function(){
 							animating = false;
 						});
 
@@ -232,12 +229,13 @@
 		methods: {
 		
 			tabsToAccordions: function(that) {
+			  var settings = $(that).data('panelGroup');
 
 				// Check if we're dealing with tabs, if so, accordion time!
 				if ( $(that).data('groupType') == 'tabs' ) {
 				
 					// Replace tab markup with original markup
-					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('tabs');
+					$(that).html(settings.originalHTML).removeClass('tabs');
 				
 					// Make into accordion
 					pg.makeAccordion($(that));
@@ -250,11 +248,12 @@
 			}, // tabsToAccordions
 		
 			tabsBackToTabs: function(that) {
+			  var settings = $(that).data('panelGroup');
 
 				if ( $(that).data('tabsToAccordion') ) {
 				
 					// Replace tab markup with original markup
-					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('accordion');
+					$(that).html(settings.originalHTML).removeClass('accordion');
 				
 					// Make into accordion
 					pg.makeTabs($(that));
@@ -275,13 +274,11 @@
 
 			// Check if we're instantiating plugin with options or calling a method. Normal stuff first.
 			if ( !pg.methods[options] ) { 
-			
-				// Merge settings
-				pg.settings = $.extend(pg.defaults, options);
 
 				// Return main method
-				var output = pg.init(this);
-				return output;
+				return this.each(function(index) {
+				  pg.init(this, options);
+				});
 			
 			} else {
 
