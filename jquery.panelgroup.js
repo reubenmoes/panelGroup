@@ -20,6 +20,8 @@
 			tabNavClasses: '',
 			tabItemsClasses: '',
 			accordionSpeed: 300,
+			openTabTrigger: 'focus click',
+			openAccordionTrigger: 'focus click',
 			firstAccordionOpen: true,
 			onlyKeepOneOpen: true
 		},
@@ -132,7 +134,7 @@
 				nav.find('a').first().addClass('active');
 
 				// Click handlers
-				nav.find('a').on('click focus', function(event) {
+				nav.find('a').on(settings.openTabTrigger, function(event) {
 
 					if ( ! $(this).is('.active') ) {
 
@@ -181,7 +183,7 @@
 		
 
 			// The click and toggle situation
-			items.find(settings.selectors.header).wrapInner('<a href="#"></a>').children('a').on('click focus', function(event) {
+			items.find(settings.selectors.header).wrapInner('<a href="#"></a>').children('a').on(settings.openAccordionTrigger, function(event) {
 
 				// Check if an animation is happening right now
 				if ( animating ) {

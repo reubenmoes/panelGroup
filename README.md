@@ -56,6 +56,8 @@ selectors: { // customize the classes used in markup
   },
 tabNavClasses: '', //get's added to tab nav <ul>
 tabItemsClasses: '', //get's added to tab-items div
+openTabTrigger: 'focus click', //event used to open the tab
+openAccordionTrigger: 'focus click', //event used to open the the accordion
 accordionSpeed: 300, // The animation speed of opening/collapsing accordion items
 firstAccordionOpen: true, // Whether or not the first accordion item should be open
 onlyKeepOneOpen: true //If Accordion should collapse all other '.active' items on open
