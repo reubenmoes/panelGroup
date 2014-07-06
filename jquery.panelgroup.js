@@ -152,6 +152,8 @@
 						nav.find('.active').removeClass('active');
 						$(this).addClass('active');
 
+						that.trigger('tabchange');
+
 					} // ! active
 
 					event.preventDefault();
@@ -228,6 +230,8 @@
 						animating = true;
 						content.slideDown(settings.accordionSpeed, function(){
 							animating = false;
+
+							that.trigger('accordionchange');
 						});
 
 					} // else

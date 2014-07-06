@@ -71,6 +71,11 @@ Methods are provided to turn tabs into accordions, and then to turn tabs back in
 * `tabsToAccordions` turns tabs into accordions
 * `tabsBackToTabs` turns tabs back into tabs after they've been turned into accordions
 
+## Events triggered by panelGroup element
+
+* `tabchange` when tab item is switched
+* `accordionchange` when accordion item is opened (at end of transition)
+
 Methods are called by passing in the method name as follows:
 
 ```javascript
