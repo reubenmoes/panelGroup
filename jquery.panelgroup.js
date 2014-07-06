@@ -133,7 +133,7 @@
 				items = that.find('.tab-items');
 
 				// Hide all but the first
-				items.find('.item').not('[data-tab-index=0]').hide();
+				items.find(settings.selectors.item).not('[data-tab-index=0]').hide();
 				nav.find('a').first().addClass('active');
 
 				// Click handlers
