@@ -17,6 +17,7 @@
 				header: '.item-header',
 				content: '.item-content'
 			},
+			flexTabNav: true,
 			tabNavClasses: '',
 			tabItemsClasses: '',
 			accordionSpeed: 300,
@@ -119,7 +120,9 @@
 				that.append(nav.parent()).append(content);
 
 				// Calculate nav items widths
-				nav.find(' > li').css('width', 100 / navItems.length + "%");
+				if(settings.flexTabNav){
+					nav.find(' > li').css('width', 100 / navItems.length + "%");
+				}
 
 				//Add count class
 				nav.addClass('has-'+navItems.length);

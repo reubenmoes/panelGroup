@@ -54,6 +54,7 @@ selectors: { // customize the classes used in markup
     header: '.item-header',
     content: '.item-content'
   },
+flexTabNav: true, //Set to true to make tabs equal-width
 tabNavClasses: '', //get's added to tab nav <ul>
 tabItemsClasses: '', //get's added to tab-items div
 openTabTrigger: 'focus click', //event used to open the tab
