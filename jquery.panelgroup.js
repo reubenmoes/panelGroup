@@ -198,8 +198,8 @@
 				} else {
 
 					var t = $(this),
-					    content = t.closest(settings.selectors.item).find(settings.selectors.content),
-					    parent = t.closest(settings.selectors.item);
+					    parent = that.find(settings.selectors.item).has(t),
+					    content = parent.find(settings.selectors.content);
 
 					// Expand or collapse depending on if you clicked an active item or not
 					if ( parent.is('.active') ) {
