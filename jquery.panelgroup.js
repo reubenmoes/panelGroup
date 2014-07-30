@@ -288,7 +288,7 @@
 			  var settings = $(that).data('panelGroup');
 
 				//NOTE: might be better to toggle .active class instead of show() hide()
-				$(that).removeClass('.tabs');
+				$(that).removeClass('tabs');
 			  $(that).find('.tab-nav-wrapper').remove();
 				$(that).find('.tab-items').children().first().unwrap();
 			  $(that).find(settings.selectors.header).removeClass('sr-only').show();
