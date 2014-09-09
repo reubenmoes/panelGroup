@@ -107,7 +107,7 @@
 				that.find(settings.selectors.item).each(function(index) {
 			
 					// Header
-					navItems.push('<li><a href="#" data-tab-index="' + index + '">' + $(this).find(settings.selectors.header).text() + '</a></li>');
+					navItems.push('<li><a href="#" data-tab-index="' + index + '"><span>' + $(this).find(settings.selectors.header).text() + '</span></a></li>');
 					$(this).find(settings.selectors.header).addClass('sr-only').hide();
 
 					// Content
