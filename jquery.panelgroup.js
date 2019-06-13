@@ -83,7 +83,7 @@
 
 			// Create the markup neccesary for tabs
 
-				that.addClass('tabs');
+				that.addClass('is-tabs');
 
 				// Header and items containers
 				var nav = $('<ul class="tab-nav">'),
@@ -148,7 +148,7 @@
 
 		makeAccordion: function(that) {
 
-			that.addClass('accordion');
+			that.addClass('is-accordion');
 
 			var items = that.find(pg.settings.selectors.item),
 					activeItem,
@@ -231,7 +231,7 @@
 				if ( $(that).data('groupType') == 'tabs' ) {
 
 					// Replace tab markup with original markup
-					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('tabs');
+					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('is-tabs');
 
 					// Make into accordion
 					pg.makeAccordion($(that));
@@ -248,7 +248,7 @@
 				if ( $(that).data('tabsToAccordion') ) {
 
 					// Replace tab markup with original markup
-					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('accordion');
+					$(that).html(pg.originals[$(that).data('groupOriginal')]).removeClass('is-accordion');
 
 					// Make into accordion
 					pg.makeTabs($(that));
